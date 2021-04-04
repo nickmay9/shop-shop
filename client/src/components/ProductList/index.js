@@ -4,20 +4,26 @@ import { useQuery } from '@apollo/react-hooks';
 import ProductItem from "../ProductItem";
 import { QUERY_PRODUCTS } from "../../utils/queries";
 import spinner from "../../assets/spinner.gif";
-import { useStoreContext } from '../../utils/GlobalState';
+import store from '../../utils/store';
 import { UPDATE_PRODUCTS } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
+import { useSelector } from 'react-redux';
 
 function ProductList() {
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
 
-  const { currentCategory } = state;
+  const dispatch = store.subscribe(() => {
+    return store.getState();
+  });
+
+  const state = useSelector(state => store.getState().products) || store.getState();
+  const currentCategory = useSelector(state => store.getState().currentCategory);
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   useEffect(() => {
     if(data){
-      dispatch({
+      store.dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products
       });
@@ -27,7 +33,7 @@ function ProductList() {
       });
     } else if (!loading){
       idbPromise('products', 'get').then((products) => {
-        dispatch({
+        store.dispatch({
           type: UPDATE_PRODUCTS,
           products: products
         });

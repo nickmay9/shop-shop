@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers";
 
-import { useStoreContext } from '../../utils/GlobalState';
+import store from '../../utils/store';
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 
 import { idbPromise } from '../../utils/helpers';
@@ -16,7 +16,8 @@ function ProductItem(item) {
     quantity
   } = item;
 
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
+  const state = store.getState();
 
   const { cart } = state;
 
@@ -24,7 +25,7 @@ function ProductItem(item) {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);
 
     if(itemInCart){
-      dispatch({
+      store.dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: _id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
@@ -36,7 +37,7 @@ function ProductItem(item) {
       });
 
     } else {
-      dispatch({
+      store.dispatch({
         type: ADD_TO_CART,
         product: { ...item, purchaseQuantity: 1 }
       });
