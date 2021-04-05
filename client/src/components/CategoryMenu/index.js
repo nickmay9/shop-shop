@@ -7,11 +7,6 @@ import store from '../../utils/store';
 import { useSelector } from 'react-redux';
 
 function CategoryMenu() {
-  // const [state, dispatch] = useStoreContext();
-
-  const dispatch = store.subscribe(() => {
-      return store.getState();
-  });
 
   const categories = useSelector(state => store.getState().categories);
 
@@ -36,7 +31,7 @@ function CategoryMenu() {
       });
     }
 
-  }, [categoryData, dispatch]);
+  }, [categoryData, loading]);
 
   const handleClick = id => {
     store.dispatch({

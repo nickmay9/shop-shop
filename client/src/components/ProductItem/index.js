@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers";
 
 import store from '../../utils/store';
+import { useSelector } from 'react-redux';
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 
 import { idbPromise } from '../../utils/helpers';
@@ -16,10 +17,7 @@ function ProductItem(item) {
     quantity
   } = item;
 
-  // const [state, dispatch] = useStoreContext();
-  const state = store.getState();
-
-  const { cart } = state;
+  const cart = useSelector(state => store.getState().cart);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id);

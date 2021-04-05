@@ -10,13 +10,8 @@ import { idbPromise } from '../../utils/helpers';
 import { useSelector } from 'react-redux';
 
 function ProductList() {
-  // const [state, dispatch] = useStoreContext();
 
-  const dispatch = store.subscribe(() => {
-    return store.getState();
-  });
-
-  const state = useSelector(state => store.getState().products) || store.getState();
+  const state = useSelector(state => store.getState());
   const currentCategory = useSelector(state => store.getState().currentCategory);
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
@@ -39,7 +34,7 @@ function ProductList() {
         });
       });
     }
-  }, [data, dispatch]);
+  }, [data, loading]);
 
   function filterProducts() {
     if (!currentCategory) {

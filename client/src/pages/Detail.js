@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { QUERY_PRODUCTS } from "../utils/queries";
 import spinner from '../assets/spinner.gif';
 import store from '../utils/store';
+import { useSelector } from 'react-redux';
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
@@ -16,10 +17,7 @@ import Cart from '../components/Cart';
 import { idbPromise } from '../utils/helpers';
 
 function Detail() {
-  const state = store.getState();
-  const dispatch = store.subscribe(() => {
-    return store.getState();
-  });
+  const state = useSelector(state => store.getState());
 
   const { id } = useParams();
 
@@ -27,7 +25,8 @@ function Detail() {
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const { products, cart } = state;
+  const products = useSelector(state => store.getState().products);
+  const cart = useSelector(state => store.getState().cart);
 
   useEffect(() => {
     if (products.length) {
@@ -49,7 +48,7 @@ function Detail() {
         });
       });
     }
-  }, [products, data, dispatch, id]);
+  }, [products, data, id, loading]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
