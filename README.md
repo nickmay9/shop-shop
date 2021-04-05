@@ -15,7 +15,7 @@ This is UCF Coding Bootcamp challenge 21. Recreate the shop module program using
 [link to deployed site](https://salty-wildwood-97120.herokuapp.com/)
 
 ## Screenshot
-
+![screenshot](screencapture-redux-challenge.png) 
 
 ## License 
 This is free and unencumbered software released into the public domain.
